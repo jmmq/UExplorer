@@ -168,9 +168,7 @@ function move_particle(space,particle,c,r){
     var x=move_x(space,c,iValue.x);
     var y=move_y(space,r,iValue.y);
     var target=space[x][y];
-    if(target.particle!=null){
-
-    }else{
+    if(target.particle==null){
         space[c][r].particle=null;
         target.particle=particle;
     }
@@ -229,22 +227,18 @@ function update_canvas(universe){
     //console.log("updating canvas")
     var space=universe.space;
     var selected_p;
-    clear_canvas(universe.canvas);
+    clear_canvas(universe.canvas,universe.ctx);
     for(var c=0;c<space.length;c++){
         for(var r=0;r<space[0].length;r++){
             selected_p=space[c][r].particle;
-            if(selected_p==null){
-                //draw_empty_cell(universe,c,r);
-            }
-            else{
+            if(selected_p!=null){
                 draw_particle(universe,c,r,selected_p);
             }
         }
     }
 }
 
-function clear_canvas(canvas){
-    var ctx=canvas.getContext("2d");
+function clear_canvas(canvas,ctx){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
