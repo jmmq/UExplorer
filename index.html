@@ -23,7 +23,7 @@ body{
 <script>
     
 function startUniverse() {
-    var radius=16;
+    var radius=24;
     var particle_types=[];
     
     particle_types.push(new particleType('rgb(255,160,160)',radius,new interactionValue(0,1)));
@@ -35,7 +35,7 @@ function startUniverse() {
     particle_types.push(new particleType('rgb(192,128,255)',radius,new interactionValue(1,1)));
     particle_types.push(new particleType('rgb(192,255,128)',radius,new interactionValue(-1,-1)));
 
-    universe=new universe(400,300,particle_types,32,2,false,256);
+    universe=new universe(512,512,particle_types,32,1,false,256);
     universe.initialize();
 }
 
@@ -200,8 +200,7 @@ function field_particle_interaction_phase(universe){
     }
 }
 
-function draw_rectangle(canvas,color,xi,yi,xf,yf){
-    var ctx=canvas.getContext("2d");
+function draw_rectangle(canvas,ctx,color,xi,yi,xf,yf){
     ctx.fillStyle = color;
     ctx.fillRect(xi,yi,xf-xi,yf-yi);
 }
@@ -209,6 +208,7 @@ function draw_rectangle(canvas,color,xi,yi,xf,yf){
 function draw_cell(universe,column,row,color){
     draw_rectangle(
         universe.canvas,
+        universe.ctx,
         color,
         column*universe.cell_size,
         row*universe.cell_size,
@@ -254,7 +254,7 @@ function iteration(universe){
     update_canvas(universe);
     particle_field_interaction_phase(universe);
     field_particle_interaction_phase(universe);
-    universe.iteration++;
+    //universe.iteration++;
 }
 
 function interactionValue(x,y){
