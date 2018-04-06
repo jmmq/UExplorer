@@ -4,13 +4,18 @@
 <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0"/>
 <style>
 canvas {
-    border:16px solid #020202;
-    background-color: #ffffff;
+    border:8px solid rgb(128, 128, 128);
+    background-color: #000;
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+body{
+    background-color: #000;
+
 }
 </style>
 </head>
@@ -18,17 +23,19 @@ canvas {
 <script>
     
 function startUniverse() {
+    var radius=16;
     var particle_types=[];
-    particle_types[0]=new particleType('rgb(255,0,0)',4,new interactionValue(0,1));
-    particle_types[1]=new particleType('rgb(0,255,0)',4,new interactionValue(0,-1));
-    particle_types[2]=new particleType('rgb(0,0,255)',4,new interactionValue(1,0));
-    particle_types[3]=new particleType('rgb(0,128,255)',4,new interactionValue(-1,0));
-    particle_types[4]=new particleType('rgb(255,128,0)',4,new interactionValue(-1,1));
-    particle_types[5]=new particleType('rgb(192,255,0)',4,new interactionValue(1,-1));
-    particle_types[6]=new particleType('rgb(192,128,255)',4,new interactionValue(1,1));
-    particle_types[7]=new particleType('rgb(128,255,64)',4,new interactionValue(-1,-1));
+    
+    particle_types.push(new particleType('rgb(255,160,160)',radius,new interactionValue(0,1)));
+    particle_types.push(new particleType('rgb(160,255,160)',radius,new interactionValue(0,-1)));
+    particle_types.push(new particleType('rgb(160,160,255)',radius,new interactionValue(1,0)));
+    particle_types.push(new particleType('rgb(255,192,128)',radius,new interactionValue(-1,0)));
+    particle_types.push(new particleType('rgb(255,128,192)',radius,new interactionValue(-1,1)));
+    particle_types.push(new particleType('rgb(192,255,128)',radius,new interactionValue(1,-1)));
+    particle_types.push(new particleType('rgb(192,128,255)',radius,new interactionValue(1,1)));
+    particle_types.push(new particleType('rgb(192,255,128)',radius,new interactionValue(-1,-1)));
 
-    universe=new universe(128,64,particle_types,32,8,false,32);
+    universe=new universe(400,300,particle_types,32,2,false,256);
     universe.initialize();
 }
 
@@ -58,7 +65,7 @@ function universe(spaceWidth,spaceHeight,particle_types,iteration_time,cell_size
     this.cell_size=cell_size;
     this.iteration=0;
     this.iteration_time=iteration_time;
-    console.log("creating universe");
+    //console.log("creating universe");
     this.space=new Array(spaceWidth);
     for (var i = 0; i < this.space.length; i++) {
         this.space[i] = new Array(spaceHeight);
@@ -70,7 +77,7 @@ function universe(spaceWidth,spaceHeight,particle_types,iteration_time,cell_size
         iteration(this.universe);
     }
     this.initialize=function(){
-        console.log("initializing");
+        //console.log("initializing");
         this.ctx=this.canvas.getContext("2d");
         this.canvas.width = spaceWidth*this.cell_size;
         this.canvas.height = spaceHeight*this.cell_size;
@@ -139,7 +146,7 @@ function reset_fields(space,x,y){
     }
 }
 function particle_field_interaction_phase(universe){
-    console.log("Particle-Field phase");
+    //console.log("Particle-Field phase");
     if(universe.shake){
         var x=((universe.iteration+2)%3)-1;
         var y=((universe.iteration+1)%3)-1;
@@ -170,7 +177,7 @@ function move_particle(space,particle,c,r){
 }
 
 function field_particle_interaction_phase(universe){
-    console.log("Field-Particle phase");
+    //console.log("Field-Particle phase");
     var selected_p;
     for(var column=0;column<universe.space.length;column++){
         for(var row=0;row<universe.space[0].length;row++){
@@ -205,13 +212,13 @@ function draw_cell(universe,column,row,color){
         color,
         column*universe.cell_size,
         row*universe.cell_size,
-        column*universe.cell_size+universe.cell_size-1,
-        row*universe.cell_size+universe.cell_size-1,
+        column*universe.cell_size+universe.cell_size,
+        row*universe.cell_size+universe.cell_size,
     );
 }
 
 function draw_empty_cell(universe,column,row){
-    draw_cell(universe,column,row,'rgb(255,255,255)');
+    draw_cell(universe,column,row,'rgb(0,0,0)');
 }
 
 function draw_particle(universe,column,row,particle){
@@ -219,7 +226,7 @@ function draw_particle(universe,column,row,particle){
 }
 
 function update_canvas(universe){
-    console.log("updating canvas")
+    //console.log("updating canvas")
     var space=universe.space;
     var selected_p;
     clear_canvas(universe.canvas);
@@ -227,7 +234,7 @@ function update_canvas(universe){
         for(var r=0;r<space[0].length;r++){
             selected_p=space[c][r].particle;
             if(selected_p==null){
-                draw_empty_cell(universe,c,r);
+                //draw_empty_cell(universe,c,r);
             }
             else{
                 draw_particle(universe,c,r,selected_p);
@@ -242,8 +249,8 @@ function clear_canvas(canvas){
 }
 
 function iteration(universe){
-    console.log("iteration ("+universe.iteration+')');
-    console.log(universe.space);
+    //console.log("iteration ("+universe.iteration+')');
+    //console.log(universe.space);
     update_canvas(universe);
     particle_field_interaction_phase(universe);
     field_particle_interaction_phase(universe);
