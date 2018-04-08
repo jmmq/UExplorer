@@ -14,7 +14,7 @@ canvas {
 }
 
 body{
-    background-color: #000;
+    background-color: rgb(192, 192, 192);
 
 }
 </style>
@@ -35,7 +35,7 @@ function startUniverse() {
     particle_types.push(new particleType('rgb(192,128,255)',radius,new interactionValue(1,1)));
     particle_types.push(new particleType('rgb(192,255,128)',radius,new interactionValue(-1,-1)));
 
-    universe=new universe(512,512,particle_types,32,1,false,256);
+    universe=new universe(256+128,256,particle_types,32,2,false,64);
     universe.initialize();
 }
 
