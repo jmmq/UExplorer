@@ -1,0 +1,14 @@
+canvas {
+    border:8px solid rgb(128, 128, 128);
+    background-color: #000;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+body{
+    background-color: rgb(192, 192, 192);
+
+}
